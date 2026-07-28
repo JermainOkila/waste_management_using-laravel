@@ -56,4 +56,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+
+    Route::post('/pickup-request', [PickupRequestController::class, 'store'])->name('pickup.store');
+
+    Route::post('/pickup-request/{pickupRequest}/cancel', [PickupRequestController::class, 'cancel'])->name('pickup.cancel');    
 });
