@@ -21,4 +21,9 @@ class PickupRequest extends Model
     {
         return $this->belongsTo(Truck::class);
     }
+
+    public function payments()
+    {
+    return $this->hasMany(Payment::class);
+    }
 }

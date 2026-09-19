@@ -21,17 +21,16 @@
     {{-- STATE 1: No active request --}}
     <h3 class="text-lg font-bold mb-4">Request a Pickup</h3>
     @livewire('pickup-request-form')
-@elseif ($activeRequest->status === 'pending_payment')
-                    {{-- STATE 2: Awaiting payment --}}
-                    <h3 class="text-lg font-bold mb-2">Complete Payment</h3>
-                    <p class="text-gray-600 mb-4">Pay KES {{ $activeRequest->amount }} to send your request to the admin.</p>
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-                        Pay with M-Pesa
-                    </button>
-                    <form method="POST" action="{{ route('pickup.cancel', $activeRequest) }}" class="inline">
-                        @csrf
-                        <button class="ml-2 text-red-600 underline">Cancel Request</button>
-                    </form>
+    @elseif ($activeRequest->status === 'pending_payment')
+    {{-- STATE 2: Awaiting payment --}}
+    <h3 class="text-lg font-bold mb-2">Complete Payment</h3>
+    <p class="text-gray-600 mb-4">Pay KES {{ $activeRequest->amount }} to send your request to the admin.</p>
+    @livewire('payment-button', ['pickupRequest' => $activeRequest])
+    <form method="POST" action="{{ route('pickup.cancel', $activeRequest) }}" class="inline">
+        @csrf
+        <button class="ml-2 text-red-600 underline">Cancel Request</button>
+    </form>
+
 
                 @elseif ($activeRequest->status === 'paid')
                     {{-- STATE 3: Waiting for admin dispatch --}}

@@ -18,28 +18,34 @@ class PickupRequestForm extends Component
     }
 
     public function save()
-{
-    $validated = $this->validate();
+    {
+        $validated = $this->validate();
 
-    $existing = auth()->user()->pickupRequests()
-        ->whereNotIn('status', ['picked_up', 'cancelled'])
-        ->exists();
+        $existing = auth()->user()->pickupRequests()
+            ->whereNotIn('status', ['picked_up', 'cancelled'])
+            ->exists();
 
-    if ($existing) {
-        session()->flash('error', 'You already have an active request.');
-        return;
+        if ($existing) {
+            session()->flash('error', 'You already have an active request.');
+            return;
+        }
+
+        auth()->user()->pickupRequests()->create([
+            'pickup_address' => $validated['pickup_address'],
+            'notes' => $validated['notes'] ?? null,
+            'pickup_lat' => auth()->user()->latitude,
+            'pickup_lng' => auth()->user()->longitude,
+            'amount' => 200,
+            'status' => 'pending_payment',
+        ]);
+
+        session()->flash('success', 'Request created, proceed to payment.');
+
+        return $this->redirect(route('dashboard'), navigate: true);
     }
 
-    auth()->user()->pickupRequests()->create([
-        'pickup_address' => $validated['pickup_address'],
-        'notes' => $validated['notes'] ?? null,
-        'pickup_lat' => auth()->user()->latitude,
-        'pickup_lng' => auth()->user()->longitude,
-        'amount' => 200,
-        'status' => 'pending_payment',
-    ]);
-
-    session()->flash('success', 'Request created, proceed to payment.');
-
-    return $this->redirect(route('dashboard'), navigate: true);
+    public function render()
+    {
+        return view('livewire.pickup-request-form');
+    }
 }
