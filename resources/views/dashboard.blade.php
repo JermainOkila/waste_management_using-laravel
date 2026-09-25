@@ -41,9 +41,35 @@
                     {{-- STATE 4: Live tracking placeholder --}}
                     <h3 class="text-lg font-bold mb-2">Truck On The Way 🚛</h3>
                     <p class="text-gray-600">A truck has been dispatched to {{ $activeRequest->pickup_address }}.</p>
-                    <div class="mt-4 bg-gray-100 h-64 flex items-center justify-center rounded-lg text-gray-500">
-                        [Live map will go here]
-                    </div>
+                    @if ($activeRequest->truck && $activeRequest->truck->current_lat)
+                        <div class="mt-4 p-1 bg-gray-700 rounded-lg">
+                        <div id="truck-map" class="h-64 rounded-md border-2 border-gray-600" wire:ignore></div>
+                        </div>
+
+                     @push('scripts')
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                        const map = L.map('truck-map').setView(
+                        [{{ $activeRequest->truck->current_lat }}, {{ $activeRequest->truck->current_lng }}],
+                        14
+                    );
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                L.marker([{{ $activeRequest->truck->current_lat }}, {{ $activeRequest->truck->current_lng }}])
+                    .addTo(map)
+                    .bindPopup('{{ $activeRequest->truck->plate_number }}')
+                    .openPopup();
+            });
+        </script>
+    @endpush
+@else
+    <div class="mt-4 bg-gray-700 h-64 flex items-center justify-center rounded-lg text-gray-400">
+        Truck location not available yet.
+    </div>
+@endif
                 @endif
             </div>
         </div>

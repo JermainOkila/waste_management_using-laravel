@@ -1,3 +1,104 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* ...existing code... */
+
+/* Global dark green theme */
+:root {
+    color-scheme: dark;
+}
+
+body {
+    background-color: #07100b;
+    color: #e5e7eb;
+}
+
+/* Common Tailwind page and card backgrounds */
+.bg-gray-100,
+.bg-gray-50 {
+    background-color: #07100b !important;
+}
+
+.bg-white {
+    background-color: #0e1b14 !important;
+}
+
+/* Text colors */
+.text-gray-900,
+.text-gray-800,
+.text-gray-700 {
+    color: #e5e7eb !important;
+}
+
+.text-gray-600,
+.text-gray-500,
+.text-gray-400 {
+    color: #a7b5ab !important;
+}
+
+/* Borders and separators */
+.border-gray-100,
+.border-gray-200,
+.border-gray-300 {
+    border-color: #243a2d !important;
+}
+
+.divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #243a2d !important;
+}
+
+/* Links */
+a {
+    transition: color 150ms ease;
+}
+
+a:not([class*="text-"]) {
+    color: #6ee7a0;
+}
+
+a:not([class*="text-"]):hover {
+    color: #a7f3c0;
+}
+
+/* Form controls */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    border-color: #365442;
+    background-color: #0a1510;
+    color: #e5e7eb;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #829387;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #34d399 !important;
+    --tw-ring-color: #34d399 !important;
+}
+
+/* Tables */
+table {
+    color: #e5e7eb;
+}
+
+th {
+    color: #a7f3c0;
+}
+
+tr {
+    border-color: #243a2d !important;
+}
+
+/* Subtle green-tinted shadows */
+.shadow,
+.shadow-sm,
+.shadow-md,
+.shadow-lg,
+.shadow-xl {
+    --tw-shadow-color: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
